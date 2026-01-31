@@ -131,14 +131,11 @@ def get_sj_salaries(secret_key, it_languages):
             salary = predict_rub_salaries_sj(vacancy)
             if salary:
                 valid_salaries_sj.append(salary)
-        if not valid_salaries_sj:
-            sj_salaries[it_language] = {
-                'vacancies_found': sj_vacancies_found,
-                'vacancies_processed': 0,
-                'average_salary': 0
-            }
-            continue
-        average_salary_sj = sum(valid_salaries_sj)/len(valid_salaries_sj)
+        average_salary_sj = (
+            sum(valid_salaries_sj)/len(valid_salaries_sj)
+            if valid_salaries_sj
+            else 0
+        )
         sj_salaries[it_language] = {
             'vacancies_found': sj_vacancies_found,
             'vacancies_processed': len(valid_salaries_sj),
