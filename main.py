@@ -76,7 +76,6 @@ def predict_rub_salaries_hh(vacancies):
     for vacancy in vacancies:
         salary = vacancy.get('salary')
         if not salary or salary.get('currency') != 'RUR':
-            salaries.append(None)
             continue
         salary_from = salary.get('from')
         salary_to = salary.get('to')
