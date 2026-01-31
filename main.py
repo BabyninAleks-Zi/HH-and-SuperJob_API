@@ -49,15 +49,26 @@ def get_vacancies_sj(secret_key, it_language):
     headers = {
         'X-Api-App-Id': secret_key
     }
-    params = {
-        'keyword': f'программист {it_language}',
-        'town': SJ_MOSCOW_TOWN_ID
-    }
-    url = 'https://api.superjob.ru/2.0/vacancies'
-    response = requests.get(url, params=params, headers=headers)
-    response.raise_for_status()
-    response_data = response.json()
-    return response_data
+    all_vacancies = []
+    page = 0
+    while True:
+        params = {
+            'keyword': f'программист {it_language}',
+            'town': SJ_MOSCOW_TOWN_ID,
+            'page': page,
+            'count': 100
+        }
+        url = 'https://api.superjob.ru/2.0/vacancies'
+        response = requests.get(url, params=params, headers=headers)
+        response.raise_for_status()
+        response_data = response.json()
+        all_vacancies.extend(response_data.get('objects', []))
+        if not response_data.get('more'):
+            return {
+                'total': response_data.get('total', 0),
+                'objects': all_vacancies
+            }
+        page += 1
 
 
 def predict_salary(salary_from, salary_to):
