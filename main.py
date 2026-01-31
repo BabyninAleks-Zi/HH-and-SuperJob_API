@@ -125,14 +125,9 @@ def get_sj_salaries(secret_key, it_languages):
     for it_language in it_languages:
         all_vacancies = get_vacancies_sj(secret_key, it_language)
         sj_vacancies_found = all_vacancies.get('total', 0)
-        vacancies = all_vacancies['objects']
-        language_vacancies = []
-        for vacancy in vacancies:
-            profession = vacancy.get('candidat', '')
-            if it_language.lower() in profession.lower():
-                language_vacancies.append(vacancy)
+        vacancies = all_vacancies.get('objects', [])
         valid_salaries_sj = []
-        for vacancy in language_vacancies:
+        for vacancy in vacancies:
             salary = predict_rub_salaries_sj(vacancy)
             if salary:
                 valid_salaries_sj.append(salary)
