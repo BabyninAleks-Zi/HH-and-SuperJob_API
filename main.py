@@ -77,9 +77,11 @@ def predict_rub_salaries_hh(vacancies):
         salary = vacancy.get('salary')
         if not salary or salary.get('currency') != 'RUR':
             continue
-        salary_from = salary.get('from')
-        salary_to = salary.get('to')
-        salaries.append(predict_salary(salary_from, salary_to))
+        salary_from = salary.get("from")
+        salary_to = salary.get("to")
+        predicted_salary = predict_salary(salary_from, salary_to)
+        if predicted_salary:
+            salaries.append(predicted_salary)
     return salaries
 
 
@@ -95,11 +97,9 @@ def get_hh_salaries(it_languages):
         hh_vacancies_found, vacancies = get_vacancies_hh(it_language)
         if hh_vacancies_found < 100:
             continue
-        salaries = predict_rub_salaries_hh(vacancies)
-        valid_salaries_hh = []
-        for salary in salaries:
-            if salary:
-                valid_salaries_hh.append(salary)
+        valid_salaries_hh = predict_rub_salaries_hh(vacancies)
+        if not valid_salaries_hh:
+            continue
         average_salary_hh = sum(valid_salaries_hh) / len(valid_salaries_hh)
         hh_salaries[it_language] = {
             'vacancies_found': hh_vacancies_found,
