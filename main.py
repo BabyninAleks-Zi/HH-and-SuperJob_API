@@ -94,7 +94,7 @@ def get_hh_salaries(it_languages):
     hh_salaries = {}
     for it_language in it_languages:
         hh_vacancies_found, vacancies = get_vacancies_hh(it_language)
-        if hh_vacancies_found < 100:  # оставляем фильтр как у тебя было
+        if hh_vacancies_found < 100:
             continue
         salaries = predict_rub_salaries_hh(vacancies)
         valid_salaries_hh = []
