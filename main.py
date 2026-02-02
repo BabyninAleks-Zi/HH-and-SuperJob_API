@@ -93,7 +93,7 @@ def predict_rub_salaries_hh(vacancies):
     return salaries
 
 
-def predict_rub_salaries_sj(vacancy):
+def predict_rub_salary_sj(vacancy):
     salary_from = vacancy.get('payment_from')
     salary_to = vacancy.get('payment_to')
     return predict_salary(salary_from, salary_to)
@@ -125,7 +125,7 @@ def get_sj_salaries(secret_key, it_languages):
         sj_vacancies_found, vacancies = get_vacancies_sj(secret_key, it_language)
         valid_salaries_sj = []
         for vacancy in vacancies:
-            salary = predict_rub_salaries_sj(vacancy)
+            salary = predict_rub_salary_sj(vacancy)
             if salary:
                 valid_salaries_sj.append(salary)
         average_salary_sj = (
