@@ -64,10 +64,7 @@ def get_vacancies_sj(secret_key, it_language):
         response_data = response.json()
         all_vacancies.extend(response_data.get('objects', []))
         if not response_data.get('more'):
-            return {
-                'total': response_data.get('total', 0),
-                'objects': all_vacancies
-            }
+            return response_data.get('total', 0), all_vacancies
         page += 1
 
 
@@ -125,9 +122,7 @@ def get_hh_salaries(it_languages):
 def get_sj_salaries(secret_key, it_languages):
     sj_salaries = {}
     for it_language in it_languages:
-        all_vacancies = get_vacancies_sj(secret_key, it_language)
-        sj_vacancies_found = all_vacancies.get('total', 0)
-        vacancies = all_vacancies.get('objects', [])
+        sj_vacancies_found, vacancies = get_vacancies_sj(secret_key, it_language)
         valid_salaries_sj = []
         for vacancy in vacancies:
             salary = predict_rub_salaries_sj(vacancy)
